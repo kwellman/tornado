@@ -457,11 +457,6 @@ class RequestHandler(object):
                          for p in paths)
             sloc = html.rindex('</body>')
             html = html[:sloc] + js + '\n' + html[sloc:]
-        if js_embed:
-            js = '<script type="text/javascript">\n//<![CDATA[\n' + \
-                '\n'.join(js_embed) + '\n//]]>\n</script>'
-            sloc = html.rindex('</body>')
-            html = html[:sloc] + js + '\n' + html[sloc:]
         if css_files:
             paths = []
             unique_paths = set()
@@ -487,6 +482,11 @@ class RequestHandler(object):
         if html_bodies:
             hloc = html.index('</body>')
             html = html[:hloc] + ''.join(html_bodies) + '\n' + html[hloc:]
+        if js_embed:
+            js = '<script type="text/javascript">\n//<![CDATA[\n' + \
+                '\n'.join(js_embed) + '\n//]]>\n</script>'
+            sloc = html.rindex('</body>')
+            html = html[:sloc] + js + '\n' + html[sloc:]
         self.finish(html)
 
     def render_string(self, template_name, **kwargs):
